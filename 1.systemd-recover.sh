@@ -4,12 +4,6 @@ if ! command -v cowsay &> /dev/null; then
     echo "Cowsay non installato. Procedere con l'installazione?"
     pacman -S cowsay
 fi
-
-if pacman -Q dosfstools &>/dev/null; then
-    echo "dosfstools non installato. Procedere con l'installazione?"
-    pacman -S dosfstools
-else
-
 echo "Systemd-boot Recover"
 
 echo -e "Attenzione! L'utilizzo di questo script potrebbe portare a perdite di dati! Assicurarsi di aver eseguito dei backup!" | cowsay
@@ -106,6 +100,3 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
 else
     echo "Interazione annullata."
 fi
-
-
-
