@@ -40,10 +40,6 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
     # Check if the user input is /dev/sda1
     if [ "$partition_device" = "/dev/sda1" ]; then
 
-        echo "Rilevato ssd!"
-
-        sleep 1
-
         mount /dev/sda2 /mnt
 
         mkdir /mnt/boot
@@ -52,10 +48,6 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
 
     # Check if the user input is /dev/nvme0n1p2
     elif [ "$partition_device" = "/dev/nvme0n1p1" ]; then
-
-        echo "Rilevato HDD!"
-
-        sleep 1
 
         mount /dev/nvme0n1p2 /mnt
 
@@ -82,33 +74,32 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
 
     bootctl install
 
+EOF
+
     echo "Configuro Systemd-Boot..."
 
     sleep 1
 
-    cd /boot/loader/entries/
+    echo "title Arch Linux (linux)" > /mnt/boot/loader/entries/arch.conf
 
-    echo "title Arch Linux (linux)" > arch.conf
-
-    echo "linux /vmlinuz-linux" >> arch.conf
+    echo "linux /vmlinuz-linux" >> /mnt/boot/loader/entries/arch.conf
 
     if pacman -Q amd-ucode &>/dev/null; then
-        echo "initrd  /amd-ucode.img" >> arch.conf
+        echo "initrd  /amd-ucode.img" >> /mnt/boot/loader/entries/arch.conf
     fi
 
     # Check if intel-ucode is installed
     if pacman -Q intel-ucode &>/dev/null; then
-        echo "initrd  /intel-ucode.img" >> arch.conf
+        echo "initrd  /intel-ucode.img" >> /mnt/boot/loader/entries/arch.conf
     fi
 
-    echo "initrd  /initramfs-linux.img" >> arch.conf
+    echo "initrd /initramfs-linux.img" >> /mnt/boot/loader/entries/arch.conf
 
     partuuid=$(blkid -s PARTUUID -o value /dev/sda2)
 
-    echo "options root=PARTUUID=$partuuid rw" >> arch.conf
+    echo "options root=PARTUUID=$partuuid rw" >> /mnt/boot/loader/entries/arch.conf
 
     echo "Bootloader installato con successo!"
-EOF
 
     umount -R /mnt
 
