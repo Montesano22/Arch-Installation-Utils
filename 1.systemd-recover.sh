@@ -62,7 +62,7 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
         exit 1
     fi
 
-    arch-chroot /mnt
+    arch-chroot /mnt<<EOF
 
     pacman -S linux linux-headers
 
@@ -90,8 +90,7 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
     echo "options root=PARTUUID=$partuuid rw" >> arch.conf
 
     echo "Bootloader installato con successo!"
-
-    exit
+EOF
 
     umount -R /mnt
 
