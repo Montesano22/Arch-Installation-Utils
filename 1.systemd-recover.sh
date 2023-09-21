@@ -80,9 +80,11 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
 
     sleep 1
 
-    bootctl --path=/boot install
+    bootctl install
 
     echo "Configuro Systemd-Boot..."
+
+    sleep 1
 
     cd /boot/loader/entries/
 
