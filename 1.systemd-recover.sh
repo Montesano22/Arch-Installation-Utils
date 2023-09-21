@@ -40,6 +40,10 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
     # Check if the user input is /dev/sda1
     if [ "$partition_device" = "/dev/sda1" ]; then
 
+        echo "Rilevato ssd!"
+
+        sleep 1
+
         mount /dev/sda2 /mnt
 
         mkdir /mnt/boot
@@ -49,7 +53,9 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
     # Check if the user input is /dev/nvme0n1p2
     elif [ "$partition_device" = "/dev/nvme0n1p1" ]; then
 
-        sudo mount /dev/nvme0n1p2 /mnt
+        echo "Rilevato HDD!"
+
+        sleep 1
 
         mount /dev/nvme0n1p2 /mnt
 
@@ -62,11 +68,21 @@ if [[ "$input" == "y" || "$input" == "Y" || -z "$input" ]]; then
         exit 1
     fi
 
+    echo "Entro in Chroot..."
+
+    sleep 1
+
     arch-chroot /mnt<<EOF
 
-    pacman -S linux linux-headers
+    pacman -S --noconfirm linux linux-headers
 
-    bootctl install
+    echo "Installo Systemd-Boot..."
+
+    sleep 1
+
+    bootctl --path=/boot install
+
+    echo "Configuro Systemd-Boot..."
 
     cd /boot/loader/entries/
 
