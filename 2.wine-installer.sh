@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Questo è uno script di saluto in Bash
-
 echo "############################"
 echo "#                          #"
 echo "#     WINE INSTALLER       #"
