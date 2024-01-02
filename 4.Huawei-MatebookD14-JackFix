@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Verifica se lo script è stato avviato con privilegi di root
+if [ "$(id -u)" != "0" ]; then
+    echo "Lo script deve essere eseguito con privilegi di root." >&2
+    exit 1
+fi
+
+# Specifica le opzioni desiderate per snd-hda-intel.conf
+file_content="options snd-hda-intel model=alc255-acer,dell-headset-multi"
+
+# Percorso del file di configurazione
+config_file="/etc/modprobe.d/snd-hda-intel.conf"
+
+# Crea il file snd-hda-intel.conf se non esiste o sovrascrive il contenuto esistente
+echo "$file_content" > "$config_file"
+echo "Il file $config_file è stato aggiornato con successo."
